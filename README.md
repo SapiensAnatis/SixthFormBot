@@ -8,5 +8,6 @@ This bot is not intended to be self-hosted as it is specifically made for one Di
 Create a file called `config.py`. This is a dictionary which provides several values essential to the operation of the bot. Here is the intended structure:
 ```python 
 config = {
-    "discord_token": "" # The token of the bot account on which the script will run. Refer to Discord's guides on setting up a bot if you don't know what this is.
-}```
+    "discord_token": "" # The token of the bot account on which the script will run.
+}
+```
