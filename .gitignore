@@ -106,5 +106,5 @@ venv.bak/
 # Vscode temp files
 .vscode/
 
-# Keychain with token and stuff in
-keychain/
+# Ignore bot token
+config.py
