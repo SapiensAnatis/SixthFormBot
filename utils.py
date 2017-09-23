@@ -8,8 +8,6 @@ are repeated often.
 import datetime
 import os
 
-__maindirectory__ = os.path.dirname(__file__)
-
 def log(message, source, severity="info"):
     """
     Used for outputting messages with timestamps and severity/source descriptors.
