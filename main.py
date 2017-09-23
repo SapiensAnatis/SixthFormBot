@@ -25,10 +25,10 @@ async def on_ready():
                 bot.load_extension(extension)
                 print("done!")
             except ImportError:
-                log(f"Could not find cog {extension}. Check that it exists.", "on_ready()", "error")
+                log(f"\nCould not find cog {extension}. Check that it exists.", "on_ready()", "error")
             except discord.ClientException:
-                log(f"Cog {extension} was invalid (no setup func).", "on_ready()", "error")
+                log(f"\nCog {extension} was invalid (no setup func).", "on_ready()", "error")
 
-    log(f"All modules successfully loaded.", "on_ready()")
+    log(f"Module loading complete.", "on_ready()")
 
 bot.run(f'{config["discord_token"]}', bot=True, reconnect=True)
