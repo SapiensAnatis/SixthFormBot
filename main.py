@@ -6,7 +6,7 @@ from config import config
 # Import utils logging functions
 from utils import log
 
-initial_extensions = ["cogs.subject_reader"]
+INITIAL_EXTENSIONS = ["cogs.subject_reader"]
 bot = commands.Bot(command_prefix="~", description="Sixth form bot")
 
 log("Connecting to Discord...", "init")
@@ -19,13 +19,14 @@ async def on_ready():
     log(f"Loading modules...", "on_ready()")
     # Load cogs
     if __name__ == "__main__":
-        for extension in initial_extensions:
+        for extension in INITIAL_EXTENSIONS:
             try:
                 print(f"\t{extension[5:]}...", end="")
                 bot.load_extension(extension)
                 print("done!")
             except ImportError:
-                log(f"\nCould not find cog {extension}. Check that it exists.", "on_ready()", "error")
+                log(f"\nCould not find cog {extension}. Check that it exists.",
+                    "on_ready()", "error")
             except discord.ClientException:
                 log(f"\nCog {extension} was invalid (no setup func).", "on_ready()", "error")
 

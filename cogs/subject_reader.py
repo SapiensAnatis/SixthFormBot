@@ -7,12 +7,9 @@ Subject data is given by issuing a command to the bot, rather than trying to
 analyze message data.
 """
 
-import discord
 from discord.ext import commands
 # Levenshtein module for fuzzy search
 from Levenshtein import distance as lev_dist
-# Import config for max edit distance
-from config import config
 
 """
 Configuration:
