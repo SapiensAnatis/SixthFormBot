@@ -6,10 +6,13 @@ allows the bot to respond by adding the appropriate roles.
 Subject data is given by issuing a command to the bot, rather than trying to
 analyze message data.
 """
-
+# Import utils for finding roles
+from discord import utils
 from discord.ext import commands
 # Levenshtein module for fuzzy search
 from Levenshtein import distance as lev_dist
+# Logging
+from utils import log
 
 """
 Configuration:
@@ -17,9 +20,11 @@ Configuration:
 MAX_FUZZY_DIST -- the maximum distance at which the best match will still be
 considered a match (so that total gibberish isn't counted as a subject)
 SUBJECTS -- an array of all restricted rooms (except Year rooms)
+ROLES -- a dict with keys being the entries in SUBJECTS and values being the
+corresponding roles
 """
 
-MAX_FUZZY_DIST = 8
+MAX_FUZZY_DIST = 4
 
 SUBJECTS = [
     "CIE",
@@ -52,6 +57,10 @@ SUBJECTS = [
     "Weeb"
 ]
 
+ROLES = {
+
+}
+
 class SubjectReader:
     """
     Command class for all subject-related commands.
@@ -65,6 +74,23 @@ class SubjectReader:
     def __init__(self, bot):
         self.bot = bot
 
+        # We need to get a server object for the SF discord to search its roles
+        self.guild = bot.get_guild(361492994144206849)
+
+        # Populate the role dictionary by pre-fetching roles
+        for subject in SUBJECTS:
+            subject_role = utils.find(lambda r, n=subject: r.name == n, self.guild.roles)
+
+            # Error message for 'not found', but we'll add None to the dictionary anyway.
+            # If a user tries to add a subject for which there isn't a role, that will
+            # be handled.
+            if subject_role is None:
+                log(f"Could not get role for subject {subject}. " +
+                    "Please ensure that a role of this name exists.",
+                    "SubjectReader __init___()", "error")
+
+            ROLES[subject] = subject_role
+
     @commands.command(name="addsubject")
     @commands.guild_only()
     async def add_subject(self, ctx, *, subject: str):
@@ -76,8 +102,25 @@ class SubjectReader:
         a query for a fuzzy search to find the appropriate role.
         """
 
-        actual_subject = self.subject_fuzzy_search(subject)
-        await ctx.send(actual_subject or "Subject not found.")
+        # Get role using fuzzy search based on argument
+        role_name = self.subject_fuzzy_search(subject)
+        # If they typed in gibberish and there's no actual subject
+        if role_name is None:
+            await ctx.message.add_reaction("👎")
+            return
+
+        role = ROLES[role_name]
+        # Same as before, except if it's a subject but there's no role
+        # This is an admin config issue, so it deserves more than a thumbs down.
+        if role is None:
+            log(f"User tried to add subject {role_name} for which there was no role.",
+                "add_subject()", "error")
+            await ctx.send("The subject you entered was valid, but there is no role for it yet.")
+            return
+
+        # Once we have a role, add it.
+        await ctx.message.author.add_roles(role)
+        await ctx.message.add_reaction("👍")
 
     @staticmethod
     def subject_fuzzy_search(subject):
@@ -101,6 +144,7 @@ class SubjectReader:
                 minimum_distance = distance
                 current_match = known_subject
 
+        # Ensure that match is suitable
         if minimum_distance < MAX_FUZZY_DIST:
             return current_match
 
