@@ -119,14 +119,19 @@ class SubjectReader:
             await ctx.send("The subject you entered was valid, but there is no role for it yet.")
             return
 
-        # Once we have a role, add it if they don't already have 5.
+        # Check they don't already have five.
         if self.count_current_subjects(ctx.message.author) >= 5:
             await ctx.message.add_reaction("🤔")
             await ctx.send("Doing more than five subjects is quite rare. Please " +
                            "speak to a member of the mod team to override.")
             return
 
-        # Add
+        # Check they don't already do it.
+        if self.user_does_subject(ctx.message.author, role_name):
+            await ctx.message.add_reaction("🤔")
+            await ctx.send("You already have the role for that subject.")
+            return
+        
         await ctx.message.author.add_roles(role)
         await ctx.message.add_reaction("👍")
 
@@ -140,7 +145,7 @@ class SubjectReader:
         subject -- a query for the fuzzy search.
         """
         # The fuzzy search is performed by iterating through the array and working out
-        # the subject with the least edit distance. 
+        # the subject with the least edit distance.
 
         # Special case: lowercase 'epq' has the same edit distance to EPQ as it does to CIE or Art.
         if subject == "epq":
@@ -176,6 +181,17 @@ class SubjectReader:
         return len(
             list(set((role.name for role in member.roles)).intersection(BASE_SUBJECTS))
         )
+
+    @staticmethod
+    def user_does_subject(member, subject):
+        """
+        Return true/false if a user has the role for a subject or not.
+
+        Arguments:
+        member -- the member who may or may not be doing the subject
+        subject -- string representation of the subject name, must be in SUBJECTS
+        """
+        return utils.find(lambda r, n=subject: r.name == n, member.roles) is not None
 
 def setup(bot):
     """ Add the cog to the bot """
