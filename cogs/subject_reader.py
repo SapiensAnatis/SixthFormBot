@@ -140,7 +140,11 @@ class SubjectReader:
         subject -- a query for the fuzzy search.
         """
         # The fuzzy search is performed by iterating through the array and working out
-        # the subject with the least edit distance.
+        # the subject with the least edit distance. 
+
+        # Special case: lowercase 'epq' has the same edit distance to EPQ as it does to CIE or Art.
+        if subject == "epq":
+            return "EPQ"
 
         # This for loop finds the match with the minimum distance
         minimum_distance = -1
