@@ -19,6 +19,8 @@ Configuration:
 
 MAX_FUZZY_DIST -- the maximum distance at which the best match will still be
 considered a match (so that total gibberish isn't counted as a subject)
+BASE_SUBJECTS -- all subjects which have an 'actual lesson',
+i.e. ones that count towards your four.
 SUBJECTS -- an array of all restricted rooms (except Year rooms)
 ROLES -- a dict with keys being the entries in SUBJECTS and values being the
 corresponding roles
@@ -26,8 +28,7 @@ corresponding roles
 
 MAX_FUZZY_DIST = 4
 
-SUBJECTS = [
-    "CIE",
+BASE_SUBJECTS = [
     "Art",
     "Biology",
     "Business",
@@ -37,7 +38,6 @@ SUBJECTS = [
     "Economics",
     "Engineering",
     "English",
-    "EPQ",
     "French",
     "Film & Media",
     "Further Maths",
@@ -54,8 +54,9 @@ SUBJECTS = [
     "Psychology",
     "Sociology",
     "Spanish",
-    "Weeb"
 ]
+
+SUBJECTS = BASE_SUBJECTS + ["EPQ", "CIE", "Weeb"]
 
 ROLES = {
 
@@ -118,7 +119,14 @@ class SubjectReader:
             await ctx.send("The subject you entered was valid, but there is no role for it yet.")
             return
 
-        # Once we have a role, add it.
+        # Once we have a role, add it if they don't already have 5.
+        if self.count_current_subjects(ctx.message.author) >= 5:
+            await ctx.message.add_reaction("🤔")
+            await ctx.send("Doing more than five subjects is quite rare. Please " +
+                           "speak to a member of the mod team to override.")
+            return
+
+        # Add
         await ctx.message.author.add_roles(role)
         await ctx.message.add_reaction("👍")
 
@@ -147,6 +155,23 @@ class SubjectReader:
         # Ensure that match is suitable
         if minimum_distance < MAX_FUZZY_DIST:
             return current_match
+
+    @staticmethod
+    def count_current_subjects(member):
+        """
+        Count the number of subject roles the user already has.
+        Used for enforcing a limit of 5 subject roles, unless manually overridden
+        by a moderator.
+
+        Arguments:
+        member -- the member to get the subject role count for.
+        """
+        # Return the length of the list which contains the intersections between
+        # their list of role namesand the BASE_SUBJECTS list, so we aren't counting
+        # EPQ or CIE
+        return len(
+            list(set((role.name for role in member.roles)).intersection(BASE_SUBJECTS))
+        )
 
 def setup(bot):
     """ Add the cog to the bot """
