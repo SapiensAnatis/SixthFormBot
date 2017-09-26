@@ -103,6 +103,8 @@ class SubjectReader:
         a query for a fuzzy search to find the appropriate role.
         """
 
+        author = ctx.message.author
+
         # Get role using fuzzy search based on argument
         role_name = self.subject_fuzzy_search(subject)
         # If they typed in gibberish and there's no actual subject
@@ -120,19 +122,19 @@ class SubjectReader:
             return
 
         # Check they don't already have five.
-        if self.count_current_subjects(ctx.message.author) >= 5:
+        if self.count_current_subjects(author) >= 5:
             await ctx.message.add_reaction("🤔")
             await ctx.send("Doing more than five subjects is quite rare. Please " +
                            "speak to a member of the mod team to override.")
             return
 
         # Check they don't already do it.
-        if self.user_does_subject(ctx.message.author, role_name):
+        if self.user_does_subject(author, role_name):
             await ctx.message.add_reaction("🤔")
             await ctx.send("You already have the role for that subject.")
             return
 
-        await ctx.message.author.add_roles(role)
+        await author.add_roles(role, reason="User added subject via addsubject command")
         await ctx.message.add_reaction("👍")
 
     @commands.command(name="dropsubject")
@@ -146,6 +148,9 @@ class SubjectReader:
         a query for a fuzzy search to find the appropriate role.
         """
 
+        # Save typing
+        author = ctx.message.author
+
         # Get role using fuzzy search based on argument
         role_name = self.subject_fuzzy_search(subject)
         # If they typed in gibberish and there's no actual subject
@@ -158,19 +163,19 @@ class SubjectReader:
         # Check they actually do it.
         # I could just attempt to remove it and handle the error, but that's
         # extra API calls
-        if not self.user_does_subject(ctx.message.author, role_name):
+        if not self.user_does_subject(author, role_name):
             await ctx.message.add_reaction("🤔")
             await ctx.send("You don't do that subject.")
             return
 
         # Ensure that they're not going down to two subjects (most do three in the end)
-        if self.count_current_subjects(ctx.message.author) < 3:
+        if self.count_current_subjects(author) < 3:
             await ctx.message.add_reaction("🤔")
             await ctx.send("Doing less than three subjects is quite rare. Please " +
                            "speak to a member of the mod team to override.")
             return
 
-        await ctx.message.author.remove_roles(role)
+        await author.remove_roles(role)
         await ctx.message.add_reaction("👍")
 
     @staticmethod
