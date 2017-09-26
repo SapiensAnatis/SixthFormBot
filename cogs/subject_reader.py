@@ -214,8 +214,8 @@ class SubjectReader:
             await ctx.send("Please put a subject that you currently do on the left side.")
             return
 
-        await author.remove_roles(first_subject, reason="User dropped subject via changesubject command")
-        await author.add_roles(second_subject, reason="User added subject via changesubject command")
+        await author.remove_roles(SUBJECTS[first_subject], reason="User dropped subject via changesubject command")
+        await author.add_roles(SUBJECTS[second_subject], reason="User added subject via changesubject command")
         await ctx.message.add_reaction("👍")
 
     @staticmethod
