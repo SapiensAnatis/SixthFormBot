@@ -134,7 +134,7 @@ class SubjectReader:
             await ctx.send("You already have the role for that subject.")
             return
 
-        await author.add_roles(role, reason="User added subject via addsubject command")
+        await author.add_roles(role, reason="addsubject command")
         await ctx.message.add_reaction("👍")
 
     @commands.command(name="dropsubject")
@@ -175,7 +175,7 @@ class SubjectReader:
                            "speak to a member of the mod team to override.")
             return
 
-        await author.remove_roles(role, reason="User dropped subject via dropsubject command")
+        await author.remove_roles(role, reason="dropsubject command")
         await ctx.message.add_reaction("👍")
 
     @commands.command(name="changesubject")
@@ -214,8 +214,8 @@ class SubjectReader:
             await ctx.send("Please put a subject that you currently do on the left side.")
             return
 
-        await author.remove_roles(ROLES[first_subject], reason="User dropped subject via changesubject command")
-        await author.add_roles(ROLES[second_subject], reason="User added subject via changesubject command")
+        await author.remove_roles(ROLES[first_subject], reason="changesubject command")
+        await author.add_roles(ROLES[second_subject], reason="changesubject command")
         await ctx.message.add_reaction("👍")
 
     @staticmethod
