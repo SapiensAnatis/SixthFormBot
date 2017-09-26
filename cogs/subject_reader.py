@@ -222,7 +222,7 @@ class SubjectReader:
         member -- the member to get the subject role count for.
         """
         # Return the length of the list which contains the intersections between
-        # their list of role namesand the BASE_SUBJECTS list, so we aren't counting
+        # their list of role names and the BASE_SUBJECTS list, so we aren't counting
         # EPQ or CIE
         return len(
             list(set((role.name for role in member.roles)).intersection(BASE_SUBJECTS))
