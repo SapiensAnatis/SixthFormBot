@@ -175,7 +175,7 @@ class SubjectReader:
                            "speak to a member of the mod team to override.")
             return
 
-        await author.remove_roles(role)
+        await author.remove_roles(role, reason="User dropped subject via dropsubject command")
         await ctx.message.add_reaction("👍")
 
     @staticmethod
