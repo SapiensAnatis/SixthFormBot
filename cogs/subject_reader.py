@@ -123,14 +123,12 @@ class SubjectReader:
 
         # Check they don't already have five.
         if self.count_current_subjects(author) >= 5:
-            await ctx.message.add_reaction("🤔")
             await ctx.send("Doing more than five subjects is quite rare. Please " +
                            "speak to a member of the mod team to override.")
             return
 
         # Check they don't already do it.
         if self.user_does_subject(author, role_name):
-            await ctx.message.add_reaction("🤔")
             await ctx.send("You already have the role for that subject.")
             return
 
@@ -164,13 +162,11 @@ class SubjectReader:
         # I could just attempt to remove it and handle the error, but that's
         # extra API calls
         if not self.user_does_subject(author, role_name):
-            await ctx.message.add_reaction("🤔")
             await ctx.send("You don't do that subject.")
             return
 
         # Ensure that they're not going down to two subjects (most do three in the end)
         if self.count_current_subjects(author) < 3:
-            await ctx.message.add_reaction("🤔")
             await ctx.send("Doing less than three subjects is quite rare. Please " +
                            "speak to a member of the mod team to override.")
             return
