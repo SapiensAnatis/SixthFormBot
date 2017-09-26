@@ -69,8 +69,11 @@ class SubjectReader:
     Includes:
     #addsubject
     #dropsubject
-    #changesubject
     """
+
+    # I am not doing a command handler for change subject, because many subjects have
+    # spaces in them, so determining arguments is a pain. It's easy enough to drop and
+    # add, especially since changing subject is infrequent at most.
 
     def __init__(self, bot):
         self.bot = bot
