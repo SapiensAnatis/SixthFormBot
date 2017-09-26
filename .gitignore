@@ -111,3 +111,6 @@ config.py
 
 # Logging
 logs/
+
+# Init script for Logging
+start.sh
