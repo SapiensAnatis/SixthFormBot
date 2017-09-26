@@ -32,4 +32,46 @@ async def on_ready():
 
     log(f"Module loading complete.", "on_ready()")
 
+# For the below commands, all cogs are assumed to be in the cogs folder.
+@bot.command()
+async def unload(ctx, cog_name: str):
+    """
+    Unloads a cog.
+
+    Arguments:
+    cog_name -- name of cog to unload.
+    """
+
+    bot.unload_extension(f"cogs.{cog_name}")
+    log(f"Successfully unloaded extension {cog_name}.", "unload()")
+    await ctx.message.add_reaction("✅")
+
+@bot.command()
+async def load(ctx, cog_name: str):
+    """
+    Loads a cog.
+
+    Arguments:
+    cog_name -- name of cog to load.
+    """
+
+    bot.load_extension(f"cogs.{cog_name}")
+    log(f"Successfully loaded extension {cog_name}.", "load()")
+    await ctx.message.add_reaction("✅")
+
+@bot.command()
+async def reload(ctx, cog_name: str):
+    """
+    Reloads a cog.
+
+    Arguments:
+    cog_name -- name of cog to reload.
+    """
+
+    bot.unload_extension(f"cogs.{cog_name}")
+    log(f"Successfully unloaded extension {cog_name}.", "reload()")
+    bot.load_extension(f"cogs.{cog_name}")
+    log(f"Successfully loaded extension {cog_name}.", "reload()")
+    await ctx.message.add_reaction("✅")
+
 bot.run(f'{config["discord_token"]}', bot=True, reconnect=True)
