@@ -131,8 +131,46 @@ class SubjectReader:
             await ctx.message.add_reaction("🤔")
             await ctx.send("You already have the role for that subject.")
             return
-        
+
         await ctx.message.author.add_roles(role)
+        await ctx.message.add_reaction("👍")
+
+    @commands.command(name="dropsubject")
+    @commands.guild_only()
+    async def drop_subject(self, ctx, *, subject: str):
+        """
+        Command handler for #dropsubject. Removes a subject from a user.
+
+        Arguments:
+        subject -- a string representation of a subject name, which is used as
+        a query for a fuzzy search to find the appropriate role.
+        """
+
+        # Get role using fuzzy search based on argument
+        role_name = self.subject_fuzzy_search(subject)
+        # If they typed in gibberish and there's no actual subject
+        if role_name is None:
+            await ctx.message.add_reaction("👎")
+            return
+
+        role = ROLES[role_name]
+
+        # Check they actually do it.
+        # I could just attempt to remove it and handle the error, but that's
+        # extra API calls
+        if not self.user_does_subject(ctx.message.author, role_name):
+            await ctx.message.add_reaction("🤔")
+            await ctx.send("You don't do that subject.")
+            return
+
+        # Ensure that they're not going down to two subjects (most do three in the end)
+        if self.count_current_subjects(ctx.message.author) < 3:
+            await ctx.message.add_reaction("🤔")
+            await ctx.send("Doing less than three subjects is quite rare. Please " +
+                           "speak to a member of the mod team to override.")
+            return
+
+        await ctx.message.author.remove_roles(role)
         await ctx.message.add_reaction("👍")
 
     @staticmethod
