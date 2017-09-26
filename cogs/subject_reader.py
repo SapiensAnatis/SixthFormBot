@@ -69,11 +69,8 @@ class SubjectReader:
     Includes:
     #addsubject
     #dropsubject
+    #changesubject
     """
-
-    # I am not doing a command handler for change subject, because many subjects have
-    # spaces in them, so determining arguments is a pain. It's easy enough to drop and
-    # add, especially since changing subject is infrequent at most.
 
     def __init__(self, bot):
         self.bot = bot
@@ -179,6 +176,46 @@ class SubjectReader:
             return
 
         await author.remove_roles(role, reason="User dropped subject via dropsubject command")
+        await ctx.message.add_reaction("👍")
+
+    @commands.command(name="changesubject")
+    @commands.guild_only()
+    async def change_subject(self, ctx, *, args):
+        """
+        Command handler for #changesubject. Changes one subject to another.
+
+        Arguments:
+        args -- two subjects seperated by a comma, with the one on the left being
+        the original subject, and the one on the right the new one.
+        e.g. "#changesubject history, sociology": changes history to sociology
+        """
+        author = ctx.message.author
+
+        # Get our two subjects by splitting them into a list w/o whitespace:
+        subjects = [subject.strip() for subject in args.split(",")]
+        # Check they did it properly
+        if len(subjects) < 2:
+            await ctx.send("Please give a subject you want to change, what to, split by a comma.")
+            return
+        elif len(subjects) > 2:
+            await ctx.send("This command only supports the ability to change one subject at once.")
+            return
+
+        # Perform lookup
+        first_subject = self.subject_fuzzy_search(subjects[0])
+        second_subject = self.subject_fuzzy_search(subjects[1])
+
+        if first_subject is None or second_subject is None:
+            await ctx.message.add_reaction("👎")
+            return
+
+        # Check that they actually do the first subject
+        if not self.user_does_subject(author, first_subject):
+            await ctx.send("Please put a subject that you currently do on the left side.")
+            return
+
+        await author.remove_roles(first_subject, reason="User dropped subject via changesubject command")
+        await author.add_roles(second_subject, reason="User added subject via changesubject command")
         await ctx.message.add_reaction("👍")
 
     @staticmethod
