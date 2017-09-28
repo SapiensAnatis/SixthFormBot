@@ -13,6 +13,8 @@ from discord.ext import commands
 from Levenshtein import distance as lev_dist
 # Logging
 from utils import log
+# Config
+from config import config
 
 """
 Configuration:
@@ -76,7 +78,7 @@ class SubjectReader:
         self.bot = bot
 
         # We need to get a server object for the SF discord to search its roles
-        self.guild = bot.get_guild(361492994144206849)
+        self.guild = bot.get_guild(config["guild_id"])
 
         # Populate the role dictionary by pre-fetching roles
         for subject in SUBJECTS:
