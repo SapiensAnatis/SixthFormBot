@@ -155,7 +155,7 @@ class SubjectReader:
         role_name = self.subject_fuzzy_search(subject)
         # If they typed in gibberish and there's no actual subject
         if role_name is None:
-            await ctx.message.add_reaction("👎")
+            await ctx.send("No subject found based on query. Please try again.")
             return
 
         role = ROLES[role_name]
@@ -204,7 +204,7 @@ class SubjectReader:
         second_subject = self.subject_fuzzy_search(subjects[1])
 
         if first_subject is None or second_subject is None:
-            await ctx.message.add_reaction("👎")
+            await ctx.say("One of your subjects wasn't found. Please try again.")
             return
 
         # Check that they actually do the first subject
