@@ -36,7 +36,7 @@ class Help:
 
     @commands.command(name="help")
     @commands.guild_only()
-    async def help(self, ctx, *command: str):
+    async def help(self, ctx):
         """
         Help command handler. Posts the command info embed.abs
         """
