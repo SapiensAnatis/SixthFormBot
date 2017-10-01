@@ -6,7 +6,7 @@ from config import config
 # Import utils logging functions
 from utils import log
 
-INITIAL_EXTENSIONS = ["cogs.subject_reader"]
+INITIAL_EXTENSIONS = ["cogs.subject_reader", "cogs.select_year"]
 bot = commands.Bot(command_prefix="~", description="Sixth form bot")
 
 log("Connecting to Discord...", "init")
