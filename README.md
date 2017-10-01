@@ -9,5 +9,6 @@ Create a file called `config.py`. This is a dictionary which provides several va
 ```python 
 config = {
     "discord_token": "" # The token of the bot account on which the script will run.
+    "guild_id": # As an int, the id of the server that the bot should operate on.
 }
 ```
