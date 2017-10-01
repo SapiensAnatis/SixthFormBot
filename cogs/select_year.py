@@ -67,20 +67,20 @@ class SelectYear:
         # e.g. we want year_role_name to be "Year 13" if "13" is in the argument.
         year_role_name = next((year for year in YEARS if year[5:] in year_argument), None)
         if year_role_name is None:
-            await ctx.say("Please provide a valid year (words don't work).")
+            await ctx.send("Please provide a valid year (words don't work).")
             return
 
         role = ROLES[year_role_name]
         existing_role = self.get_mem_year_role(author)
 
         # Checks
-        # Do they already have the role they're requesting?
-        if role.name == existing_role.name:
-            await ctx.say("You're already registered as being a part of that year group.")
-            return
-
-        # If they already have a year role, remove it first.
+        # Skip checks if they don't already have a year role.
         if existing_role is not None:
+            # Do they already have the role they're requesting?
+            if role.name == existing_role.name:
+                await ctx.send("You're already registered as being a part of that year group.")
+                return
+
             await author.remove_roles(existing_role)
 
         # Add role, finally
