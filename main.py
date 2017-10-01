@@ -33,7 +33,7 @@ async def on_ready():
     log(f"Module loading complete.", "on_ready()")
 
 # For the below commands, all cogs are assumed to be in the cogs folder.
-@bot.command()
+@bot.command(hidden=True)
 @commands.is_owner()
 async def unload(ctx, cog_name: str):
     """
@@ -47,7 +47,7 @@ async def unload(ctx, cog_name: str):
     log(f"Successfully unloaded extension {cog_name}.", "unload()")
     await ctx.message.add_reaction("✅")
 
-@bot.command()
+@bot.command(hidden=True)
 @commands.is_owner()
 async def load(ctx, cog_name: str):
     """
@@ -61,7 +61,7 @@ async def load(ctx, cog_name: str):
     log(f"Successfully loaded extension {cog_name}.", "load()")
     await ctx.message.add_reaction("✅")
 
-@bot.command()
+@bot.command(hidden=True)
 @commands.is_owner()
 async def reload(ctx, cog_name: str):
     """
