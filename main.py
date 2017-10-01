@@ -6,7 +6,7 @@ from config import config
 # Import utils logging functions
 from utils import log
 
-INITIAL_EXTENSIONS = ["cogs.subject_reader", "cogs.select_year", "cogs.help"]
+INITIAL_EXTENSIONS = ["cogs.subject_reader", "cogs.select_year", "cogs.help", "cogs.rules"]
 bot = commands.Bot(command_prefix="~", description="Sixth form bot")
 
 # Enable custom help command
