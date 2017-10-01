@@ -94,7 +94,11 @@ class SubjectReader:
 
             ROLES[subject] = subject_role
 
-    @commands.command(name="addsubject")
+    @commands.command(
+        name="addsubject",
+        brief="Add a subject.",
+        usage="addsubject <subject name>"
+    )
     @commands.guild_only()
     async def add_subject(self, ctx, *, subject: str):
         """
@@ -137,7 +141,11 @@ class SubjectReader:
         await author.add_roles(role, reason="addsubject command")
         await ctx.message.add_reaction("👍")
 
-    @commands.command(name="dropsubject")
+    @commands.command(
+        name="dropsubject",
+        brief="Remove a subject role and access to its relevant text channel.",
+        usage=f"dropsubject <subject name>"
+    )
     @commands.guild_only()
     async def drop_subject(self, ctx, *, subject: str):
         """
@@ -176,7 +184,11 @@ class SubjectReader:
         await author.remove_roles(role, reason="dropsubject command")
         await ctx.message.add_reaction("👍")
 
-    @commands.command(name="changesubject")
+    @commands.command(
+        name="changesubject",
+        brief="Change a subject role to another.",
+        usage="changesubject <subject you have>, <subject you want>"
+    )
     @commands.guild_only()
     async def change_subject(self, ctx, *, args):
         """

@@ -48,7 +48,11 @@ class SelectYear:
         for year in YEARS:
             ROLES[year] = utils.find(lambda r, n=year: r.name == n, self.guild.roles)
 
-    @commands.command(name="setyear")
+    @commands.command(
+        name="setyear",
+        brief="Set your year role.",
+        usage="setyear <year>"
+    )
     @commands.guild_only()
     async def set_year(self, ctx, *, year_argument: str):
         """
