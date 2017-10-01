@@ -85,6 +85,7 @@ class SelectYear:
 
         # Add role, finally
         await author.add_roles(role)
+        await ctx.message.add_reaction("👍")
 
     @staticmethod
     def get_mem_year_role(member):
