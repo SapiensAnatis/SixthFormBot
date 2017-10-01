@@ -25,7 +25,7 @@ startup by searching for roles with the names in YEARS, and indexing them with
 those names.
 
 Roles are pre-fetched at startup to save the program from having to use
-utils.find excessively every time a command is run. Effectively roles are loaded
+utils.find excessively every time a command is run. Effectively, roles are loaded
 into memory to reduce read times.
 """
 
@@ -34,7 +34,7 @@ ROLES = {}
 
 class SelectYear:
     """
-    Extension class for the commands
+    Extension class for the commands to define years.
 
     Includes:
     #setyear
