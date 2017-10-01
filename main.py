@@ -34,6 +34,7 @@ async def on_ready():
 
 # For the below commands, all cogs are assumed to be in the cogs folder.
 @bot.command()
+@commands.is_owner()
 async def unload(ctx, cog_name: str):
     """
     Unloads a cog.
@@ -47,6 +48,7 @@ async def unload(ctx, cog_name: str):
     await ctx.message.add_reaction("✅")
 
 @bot.command()
+@commands.is_owner()
 async def load(ctx, cog_name: str):
     """
     Loads a cog.
@@ -60,6 +62,7 @@ async def load(ctx, cog_name: str):
     await ctx.message.add_reaction("✅")
 
 @bot.command()
+@commands.is_owner()
 async def reload(ctx, cog_name: str):
     """
     Reloads a cog.
