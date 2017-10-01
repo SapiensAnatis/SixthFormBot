@@ -65,12 +65,18 @@ class SelectYear:
 
         author = ctx.message.author
 
+        # To enable detection of words, first replace the words with the relevant numbers
+        # so that the search won't fail later.
+        year_argument = year_argument.replace("eleven", "11")
+        year_argument = year_argument.replace("twelve", "12")
+        year_argument = year_argument.replace("thirteen", "13")
+
         # Fuzzy search the year role array to find which one's 'number'
         # is a substring of the argument.
         # e.g. we want year_role_name to be "Year 13" if "13" is in the argument.
         year_role_name = next((year for year in YEARS if year[5:] in year_argument), None)
         if year_role_name is None:
-            await ctx.send("Please provide a valid year (words don't work).")
+            await ctx.send("Please provide a valid year.")
             return
 
         role = ROLES[year_role_name]
