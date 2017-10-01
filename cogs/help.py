@@ -22,7 +22,6 @@ class Help:
         self.embed = Embed(
             title="Sixth Form bot: commands",
             type="rich",
-            description="Command guidance",
             colour=Colour.blue(),
         )
 
