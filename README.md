@@ -10,5 +10,10 @@ Create a file called `config.py`. This is a dictionary which provides several va
 config = {
     "discord_token": "" # The token of the bot account on which the script will run.
     "guild_id": # As an int, the id of the server that the bot should operate on.
+    "rules": {
+        # A dict of rules to add to the embed given by #rules. Keys = titles, values = ..values
+        "rule title": "rule description",
+        "rule title 2": "rule description 2"
+    }
 }
 ```
