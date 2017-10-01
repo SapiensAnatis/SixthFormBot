@@ -6,8 +6,11 @@ from config import config
 # Import utils logging functions
 from utils import log
 
-INITIAL_EXTENSIONS = ["cogs.subject_reader", "cogs.select_year"]
+INITIAL_EXTENSIONS = ["cogs.subject_reader", "cogs.select_year", "cogs.help"]
 bot = commands.Bot(command_prefix="~", description="Sixth form bot")
+
+# Enable custom help command
+bot.remove_command("help")
 
 log("Connecting to Discord...", "init")
 
