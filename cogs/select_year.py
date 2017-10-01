@@ -52,8 +52,7 @@ class SelectYear:
     @commands.guild_only()
     async def set_year(self, ctx, *, year_argument: str):
         """
-        Command handler for #setyear. Changes or initially defines
-        the user's year role.
+        Changes or initially defines the user's year role.
 
         Arguments:
         year_argument -- a string hopefully containing some indication

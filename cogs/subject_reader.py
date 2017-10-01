@@ -98,7 +98,7 @@ class SubjectReader:
     @commands.guild_only()
     async def add_subject(self, ctx, *, subject: str):
         """
-        Command handler for #addsubject. Adds a subject to a user.
+        Adds a subject to a user.
 
         Arguments:
         subject -- a string representation of a subject name, which is used as
@@ -141,7 +141,7 @@ class SubjectReader:
     @commands.guild_only()
     async def drop_subject(self, ctx, *, subject: str):
         """
-        Command handler for #dropsubject. Removes a subject from a user.
+        Removes a subject from a user.
 
         Arguments:
         subject -- a string representation of a subject name, which is used as
@@ -180,7 +180,7 @@ class SubjectReader:
     @commands.guild_only()
     async def change_subject(self, ctx, *, args):
         """
-        Command handler for #changesubject. Changes one subject to another.
+        Changes one subject to another.
 
         Arguments:
         args -- two subjects seperated by a comma, with the one on the left being
