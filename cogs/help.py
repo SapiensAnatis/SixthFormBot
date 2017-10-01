@@ -20,7 +20,7 @@ class Help:
         self.bot = bot
         # Pre-define help embed
         self.embed = Embed(
-            title="Sixth Form bot: commands",
+            title="Commands",
             type="rich",
             colour=Colour.blue(),
         )
@@ -30,7 +30,7 @@ class Help:
         for command in bot_commands:
             self.embed.add_field(
                 name=command.name,
-                value=f"{command.brief}\nUsage: {command.usage}",
+                value=f"{command.brief}\nUsage: `{bot.command_prefix}{command.usage}`",
                 inline=False
             )
 
