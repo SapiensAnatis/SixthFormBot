@@ -30,7 +30,8 @@ class Help:
         for command in bot_commands:
             self.embed.add_field(
                 name=command.name,
-                value=f"{command.brief}\nUsage: {command.usage}"
+                value=f"{command.brief}\nUsage: {command.usage}",
+                inline=False
             )
 
     @commands.command(name="help")
